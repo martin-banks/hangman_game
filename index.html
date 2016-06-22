@@ -33,44 +33,6 @@
 
 <script type="text/javascript">
 
-var makeQuiz = (intro, clue, words)=> {
-	return {
-		words: [
-			'sea',
-			'factory'
-		],
-		setWords: (newWords)=>{
-			var words = [];
-			newWords.forEach(function(v,i,a){
-				words.push(v)
-			})
-		},
-		getWords: (newWords)=>{
-			return words
-		},
-		setIntro: (newIntro)=>{
-			intro = newIntro
-		},
-		getIntro: ()=>{
-			return intro;
-		},
-		setClue: (newClue)=>{
-			clue = newClue
-		},
-		getClue: ()=>{
-			return clue
-		}
-	}
-};
-
-var qw = ['first', 'second', 'third' ] 
-var newQuiz = makeQuiz('this is hte intro', 'this is the clue', qw);
-
-var theclue = newQuiz.getClue();
-console.log('the clue:', theclue);
-
-var theWords = newQuiz.getWords();
-console.log('the words:', theWords[2])
 
 
 var quizzes = [

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hangman</title>
+	<style type="text/css">
+		body {
+			text-align: center;
+			padding-top: 60px;
+		}
+		input {
+			outline: none;
+			border: none;
+			border-bottom: solid 1px #ccc;
+			padding: 5px;
+			text-align: center;
+			font-size: 70px;
+			color: lightgrey;
+			width: 60%
+		}
+		h1{
+			font-size: 60px;
+		}
+	</style>
+</head>
+<body>
+
+<h1 id="puzzle"></h1>
+<input id="guess" type="text" name="guess" maxlength="1">
+<h3 id="guessLeft"></h1>
+<h4 id="wrong"></h1>
+<button>Guess now</button>
+
+
+<script type="text/javascript">
+
+var makeQuiz = (intro, clue, words)=> {
+	return {
+		words: [
+			'sea',
+			'factory'
+		],
+		setWords: (newWords)=>{
+			var words = [];
+			newWords.forEach(function(v,i,a){
+				words.push(v)
+			})
+		},
+		getWords: (newWords)=>{
+			return words
+		},
+		setIntro: (newIntro)=>{
+			intro = newIntro
+		},
+		getIntro: ()=>{
+			return intro;
+		},
+		setClue: (newClue)=>{
+			clue = newClue
+		},
+		getClue: ()=>{
+			return clue
+		}
+	}
+};
+
+var qw = ['first', 'second', 'third' ] 
+var newQuiz = makeQuiz('this is hte intro', 'this is the clue', qw);
+
+var theclue = newQuiz.getClue();
+console.log('the clue:', theclue);
+
+var theWords = newQuiz.getWords();
+console.log('the words:', theWords[2])
+
+
+var quizzes = [
+	{
+		words: [
+			'sea',
+			'factory'
+		],
+		intro: 'Intro about the qord group',
+		clue: 'Some extra clue about the'
+	},
+	{
+		words: [
+			'tree',
+			'beach'
+		],
+		intro: 'Intro about the qord group',
+		clue: 'Some extra clue about the'
+	}
+]
+/*
+var words = [
+	'tree',
+	'beach',
+	'sea',
+	'factory'
+];
+*/
+
+var r = (min, max)=>{
+	return min + (Math.floor(Math.random()*max))
+};
+
+var puzzleWord = [];
+var puzzleView = [];
+
+
+// es6 iife for set up
+(()=>{
+	var words = quizzes[r(0,quizzes.length)].words
+
+	var chooseWord = words[r(0, words.length)]
+	console.log(chooseWord);
+	for (var i=0; i<chooseWord.length; i++){
+		puzzleWord.push(chooseWord[i]);
+	}
+	console.log(puzzleWord);
+
+	for(var i=0; i<puzzleWord.length; i++){
+		puzzleView.push('_');
+	};
+	console.log(puzzleView);
+
+	document.getElementById('puzzle').textContent = puzzleView.join(' ');
+})()
+
+
+
+
+
+
+var guessLetter;
+// check guess against setWord
+
+var wrongGuessCount= 5;
+document.getElementById('guessLeft').textContent = wrongGuessCount + ' guesses left';
+var answer = (puzzleView.toString().replace(/,/g, ''));
+
+document.getElementById('guess').focus()
+
+
+
+
+
+document.querySelector('button').addEventListener('click', ()=>{
+	document.getElementById('guess').focus();
+	if (!!document.getElementById('guess').value){
+		var status = false
+		var guessLetter = document.getElementById('guess').value;
+		document.getElementById('guess').value = '';
+		
+		console.log('playing', guessLetter);
+		for (var i=0; i < (puzzleWord.length); i++){
+			console.log('checking', puzzleWord[i])
+		
+			if (guessLetter === puzzleWord[i]){
+				status = true;
+				puzzleView[i] = guessLetter; 
+				console.log(puzzleView)
+				answer = (puzzleView.toString().replace(/,/g, ''));
+				document.getElementById('puzzle').textContent = puzzleView.join(' ');
+			} 
+		}
+		
+		console.log(answer, status)
+		 if (answer === puzzleWord.toString().replace(/,/g, '') ) {
+			console.log( 'winner');
+			document.querySelector('body').innerHTML = `<h3>${answer}</h3><h1>Winner!!</h1>`;
+		} 
+		else if ( status ) {
+			console.log( 'correct!, next guess!');
+		} 
+		else if (wrongGuessCount <= 1){
+			console.log('you lose, game over');
+			document.querySelector('body').innerHTML = '<h1>Game over</h1>'
+		}
+		else {
+			console.log('wrong guess');
+			wrongGuessCount-=1;
+			document.getElementById('guessLeft').textContent = wrongGuessCount + ' guesses left';
+			document.querySelector('#wrong').textContent = "Wrong guess"	
+		} 
+	} else {
+		console.log('no guess: empty field');
+	}
+
+})
+
+</script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 Putting some of the concepts learned General Assembly's Javascript course into action. 
 
-# First version
+## First version
 Classic hangman game that can be played in the browser
 
 - User types one letter, check that letter against the puzzle, displaying correct/wrong message as appropriate
